@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sales & Inventory Management</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+	<nav class="navbar navbar-custom">
+        <a class="navbar-brand" th:href="@{/}"><i class="bi-front"></i>  Sales & Inventory Management</a>
+    </nav>
+
+	<div class="sidebar">
+		<a th:href="@{/inventory}"><i class="bi-box-seam"></i> Inventory</a> 
+		<a th:href="@{/sales}"><i class="bi-bar-chart-line"></i> Sales</a>
+		<a class="active"><i class="bi-people-fill"></i> Customers</a>
+		<a class="logout" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+	</div>
+
+	<div class="content">
+		<div class="container my-3">
+			<h2>CUSTOMERS</h2>
+			
+			<label for="searchBar"><b>Search:</b></label>
+			<input type="text" id="searchBar" onkeyup="search()" placeholder="Search for customer first name..." ><br><br>
+			
+			<table class="table table-bordered table-sm align-middle" id="myTable">
+  				<thead class="table-dark">
+    				<tr>
+      					<th scope="col">First Name</th>
+      					<th scope="col">Last Name</th>
+      					<th scope="col">Email</th>
+      					<th scope="col"></th>
+    				</tr>
+  				</thead>
+  				<tbody>
+    				<tr th:each="cust : ${custList}">
+      					<td th:text="${cust.firstName}"></td>
+      					<td th:text="${cust.lastName}"></td>
+      					<td th:text="${cust.email}"></td>
+      					<td>
+      						<button class="btn btn-outline-primary btn-sm" th:onclick="|window.location.href='/customers/edit/${cust.id}'|" th:field=${cust.id}>Edit</button>
+      						<button class="btn btn-outline-danger btn-sm" th:onclick="|window.location.href='/customers/delete/${cust.id}'|" th:field=${cust.id}>Delete</button>
+      					</td>
+    				</tr>
+  				</tbody>
+			</table>
+				
+			<button class="btn btn-outline-dark btn-sm" th:onclick="|window.location.href='/customers/create'|">Create New Customer</button>
+		</div>
+	</div>
+	
+	<script src="/js/customersScript.js"></script>
+	
+</body>
+</html>
